@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Art/Astronaut-Suit-PNG-Image.png" type="Texture" id=1]
+[ext_resource path="res://tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://Player.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 16.0
+height = 90.0
+
+[node name="World" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 256, 256 )
+format = 1
+tile_data = PoolIntArray( -3, 0, 0, -2, 0, 0, -65532, 0, 0, 65534, 0, 0, 65535, 0, 0, 3, 0, 0, 4, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 464, 128 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
+position = Vector2( -4, 4 )
+scale = Vector2( 0.1, 0.1 )
+frames = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( -2, 3 )
+shape = SubResource( 2 )
