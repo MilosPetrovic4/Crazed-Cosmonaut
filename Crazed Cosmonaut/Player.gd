@@ -27,22 +27,28 @@ func _physics_process(delta):
 	#Player controls
 	if Input.is_action_pressed("ui_right"):
 		movement.x = speed
+		$AnimatedSprite.flip_h = false
+		
 	elif Input.is_action_pressed("ui_left"):
 		movement.x = -speed
+		$AnimatedSprite.flip_h = true
 	else:
 		movement.x = 0
 		
+	if Input.is_action_just_pressed("ui_punch"):
+		$AnimatedSprite.play("Punch")
 		
-	#if Input.is_action_pressed("ui_jump"):
-	#	vector.y -= 1
+	if Input.is_action_just_released("ui_punch"):
+		$AnimatedSprite.play("default")
 
-	#position.x = clamp(position.x, 0, screensize.x)
-	#position.y = clamp(position.y, 0, screensize.y)
-		
 	#sets new position of the player
 	if is_on_floor():
 		if Input.is_action_just_pressed("ui_jump"):
 			movement.y = -jump
+			#$jumpForce.start()
+			
+		#if Input.is_action_just_released("ui_jump"):
+		#	$jumpForce.stop()
 			
 	movement = move_and_slide(movement, UPvector)
 			

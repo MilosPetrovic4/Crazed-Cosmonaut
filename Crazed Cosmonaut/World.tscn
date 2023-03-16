@@ -1,20 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Art/Astronaut-Suit-PNG-Image.png" type="Texture" id=1]
+[ext_resource path="res://Art/pixil-frame-0_7.png" type="Texture" id=1]
 [ext_resource path="res://tiles.tres" type="TileSet" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://Art/pixil-frame-0_4.png" type="Texture" id=4]
+[ext_resource path="res://wCrate.tscn" type="PackedScene" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "Punch",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 16.0
-height = 90.0
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.5, 47 )
 
 [node name="World" type="Node2D"]
 
@@ -28,7 +34,7 @@ __meta__ = {
 }
 
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 464, 128 )
+position = Vector2( 429, 263 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -38,10 +44,26 @@ __meta__ = {
 position = Vector2( -4, 4 )
 scale = Vector2( 0.1, 0.1 )
 frames = SubResource( 1 )
+animation = "Punch"
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( -2, 3 )
+position = Vector2( -17.5, -19 )
 shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="jumpForce" type="Timer" parent="Player"]
+one_shot = true
+
+[node name="Crate" parent="." instance=ExtResource( 5 )]
+position = Vector2( 536, 195 )
+
+[node name="Crate2" parent="." instance=ExtResource( 5 )]
+position = Vector2( -162, -57 )
+
+[node name="Crate3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 875, -61 )
