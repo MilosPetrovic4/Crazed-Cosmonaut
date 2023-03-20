@@ -15,6 +15,7 @@ var movement = Vector2.ZERO
 
 func _ready():
 	screensize = get_viewport_rect().size 
+	$AnimatedSprite.play("default")
 	#position = Vector2(startposx, startposy)
 
 
@@ -36,11 +37,26 @@ func _physics_process(delta):
 		movement.x = 0
 		
 	if Input.is_action_just_pressed("ui_punch"):
-		$AnimatedSprite.play("Punch")
+		
+		if $AnimatedSprite.flip_h == false:
+			$Area2D/punch_range_right.disabled = false
+			
+		if $AnimatedSprite.flip_h == true:
+			$Area2D2/punch_range_left.disabled = false
+			
+		$AnimatedSprite.play("punch")
+		
+		
 		
 	if Input.is_action_just_released("ui_punch"):
 		$AnimatedSprite.play("default")
-
+		
+		
+		$Area2D/punch_range_right.disabled = true
+		$Area2D2/punch_range_left.disabled = true
+			
+		
+		
 	#sets new position of the player
 	if is_on_floor():
 		if Input.is_action_just_pressed("ui_jump"):
@@ -54,3 +70,14 @@ func _physics_process(delta):
 			
 
 	
+
+
+
+func _on_Area2D_body_entered(body):
+	if body.is_in_group("hit"):
+		body.takeDamage()
+
+
+func _on_Area2D2_body_entered(body):
+	if body.is_in_group("hit"):
+		body.takeDamage()
