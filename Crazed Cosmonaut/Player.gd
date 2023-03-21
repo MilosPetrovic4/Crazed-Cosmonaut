@@ -45,6 +45,7 @@ func _physics_process(delta):
 			$Area2D2/punch_range_left.disabled = false
 			
 		$AnimatedSprite.play("punch")
+		$punchSound.play()
 		
 		
 		
@@ -62,7 +63,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("ui_jump"):
 			movement.y = -jump
 			#$jumpForce.start()
-			
+			$jumpSound.play() #Sound Effect from https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6462
 		#if Input.is_action_just_released("ui_jump"):
 		#	$jumpForce.stop()
 			
@@ -75,9 +76,11 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("hit"):
+		$boxBreak.play()
 		body.takeDamage()
 
 
 func _on_Area2D2_body_entered(body):
 	if body.is_in_group("hit"):
+		$boxBreak.play()
 		body.takeDamage()
