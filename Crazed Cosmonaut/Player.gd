@@ -10,20 +10,24 @@ const maxFallSpeed =  200
 const UPvector = Vector2(0, -1)
 const jump = 1000
 
+var pHealth = 100;
+
 #Vector used for player
 var movement = Vector2.ZERO
 
 func _ready():
 	screensize = get_viewport_rect().size 
 	$AnimatedSprite.play("default")
+	#$HealthReduce.start()
 	#position = Vector2(startposx, startposy)
 
 
 func _physics_process(delta):
 	
 	movement.y += gravity
-	#if movement.y > maxFallSpeed:
-	#	movement.y = maxFallSpeed
+	
+	#if pHealth <= 0:
+		#$Player.hide()
 	
 	#Player controls
 	if Input.is_action_pressed("ui_right"):
@@ -84,3 +88,8 @@ func _on_Area2D2_body_entered(body):
 	if body.is_in_group("hit"):
 		$boxBreak.play()
 		body.takeDamage()
+
+
+func _on_HealthReduce_timeout():
+	pHealth -= 1
+	$Camera2D/ProgressBar.value = pHealth
