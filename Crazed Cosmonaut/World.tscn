@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Art/pixil-frame-0_7.png" type="Texture" id=1]
 [ext_resource path="res://tiles.tres" type="TileSet" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://fist-punch-or-kick-7171.mp3" type="AudioStream" id=7]
 [ext_resource path="res://crate-break-1-93926.mp3" type="AudioStream" id=8]
 [ext_resource path="res://theme.tres" type="Theme" id=9]
+[ext_resource path="res://TitlePage.tscn" type="PackedScene" id=10]
+[ext_resource path="res://World.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 17.5, 46 )
@@ -34,6 +36,7 @@ extents = Vector2( 17, 15.5 )
 
 [node name="World" type="Node2D"]
 position = Vector2( 134, 100 )
+script = ExtResource( 11 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
@@ -112,6 +115,12 @@ crateHealth = 300
 [node name="HealthReduce" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+
+[node name="TitlePage" parent="." instance=ExtResource( 10 )]
+margin_left = -95.0
+margin_top = -120.0
+margin_right = -95.0
+margin_bottom = -120.0
 
 [connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="Player/Area2D2" to="Player" method="_on_Area2D2_body_entered"]
