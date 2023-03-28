@@ -9,19 +9,16 @@ func _ready():
 func takeDamage():
 	crateHealth -= 100
 	
-	print("take damage")
-	
 	if crateHealth <= 0:
 		
 		
 		$AnimatedSprite.play("break")
 		$destroyed.start()
+		$CollisionShape2D.queue_free()
 		
 		yield($destroyed, "timeout")
 		
 		self.queue_free()
-		
-
 
 func _on_destroyed_timeout():
 	pass 

@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 139, 112 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" groups=["tile"]]
 position = Vector2( 16, 16 )
 scale = Vector2( 0.1, 0.1 )
 __meta__ = {

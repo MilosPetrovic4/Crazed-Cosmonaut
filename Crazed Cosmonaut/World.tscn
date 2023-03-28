@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Art/pixil-frame-0_7.png" type="Texture" id=1]
 [ext_resource path="res://tiles.tres" type="TileSet" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://theme.tres" type="Theme" id=9]
 [ext_resource path="res://TitlePage.tscn" type="PackedScene" id=10]
 [ext_resource path="res://World.gd" type="Script" id=11]
+[ext_resource path="res://astronaut.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 17.5, 46 )
@@ -35,19 +36,20 @@ extents = Vector2( 15, 15.5 )
 extents = Vector2( 17, 15.5 )
 
 [node name="World" type="Node2D"]
-position = Vector2( 134, 100 )
+position = Vector2( 133, 100 )
 script = ExtResource( 11 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["hide"]]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 256, 256 )
+collision_mask = 3
 format = 1
 tile_data = PoolIntArray( -65541, 0, 0, -8, 0, 0, -7, 0, 0, -6, 0, 0, -5, 0, 0, -4, 0, 0, -3, 0, 0, -2, 0, 0, -65532, 0, 0, 65534, 0, 0, 65535, 0, 0, 3, 0, 0, 4, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Player" type="KinematicBody2D" parent="."]
+[node name="Player" type="KinematicBody2D" parent="." groups=["hide"]]
 position = Vector2( 569, 255 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -70,9 +72,6 @@ percent_visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2( 25.5, -20 )
 shape = SubResource( 2 )
-
-[node name="jumpForce" type="Timer" parent="Player"]
-one_shot = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
 position = Vector2( 40, 4 )
@@ -103,25 +102,37 @@ stream = ExtResource( 7 )
 stream = ExtResource( 8 )
 
 [node name="StaticBody2D" parent="." instance=ExtResource( 5 )]
-position = Vector2( 38, 23 )
+position = Vector2( 1046, 20 )
 z_index = -1
 crateHealth = 200
 
 [node name="StaticBody2D2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 709, 284 )
+position = Vector2( -48, -80 )
 z_index = -1
 crateHealth = 300
 
 [node name="HealthReduce" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.8
 autostart = true
 
 [node name="TitlePage" parent="." instance=ExtResource( 10 )]
-margin_left = -95.0
-margin_top = -120.0
-margin_right = -95.0
-margin_bottom = -120.0
+margin_left = 56.0
+margin_top = -69.0
+margin_right = 56.0
+margin_bottom = -69.0
+
+[node name="astronaut" parent="." instance=ExtResource( 12 )]
+position = Vector2( -67, -3 )
+
+[node name="astronaut2" parent="." instance=ExtResource( 12 )]
+position = Vector2( -339, -253 )
+
+[node name="astronaut3" parent="." instance=ExtResource( 12 )]
+position = Vector2( -101, 2 )
 
 [connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_Area2D_body_entered"]
 [connection signal="body_entered" from="Player/Area2D2" to="Player" method="_on_Area2D2_body_entered"]
 [connection signal="timeout" from="HealthReduce" to="Player" method="_on_HealthReduce_timeout"]
+[connection signal="exit" from="TitlePage" to="." method="_on_TitlePage_exit"]
+[connection signal="startGame" from="TitlePage" to="." method="_on_TitlePage_startGame"]
+[connection signal="startGame" from="TitlePage" to="Player" method="_on_TitlePage_startGame"]

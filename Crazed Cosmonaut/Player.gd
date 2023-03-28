@@ -4,6 +4,7 @@ var speed = 220
 var screensize
 var startposx = 200
 var startposy = 200
+var canmove = false
 
 const gravity = 20
 const maxFallSpeed =  200
@@ -24,54 +25,55 @@ func _ready():
 
 func _physics_process(delta):
 	
-	movement.y += gravity
+	if canmove == true:
+		movement.y += gravity
 	
-	#if pHealth <= 0:
-		#$Player.hide()
-	
-	#Player controls
-	if Input.is_action_pressed("ui_right"):
-		movement.x = speed
-		$AnimatedSprite.flip_h = false
+		#if pHealth <= 0:
+			#$Player.hide()
 		
-	elif Input.is_action_pressed("ui_left"):
-		movement.x = -speed
-		$AnimatedSprite.flip_h = true
-	else:
-		movement.x = 0
-		
-	if Input.is_action_just_pressed("ui_punch"):
-		
-		if $AnimatedSprite.flip_h == false:
-			$Area2D/punch_range_right.disabled = false
+		#Player controls
+		if Input.is_action_pressed("ui_right"):
+			movement.x = speed
+			$AnimatedSprite.flip_h = false
 			
-		if $AnimatedSprite.flip_h == true:
-			$Area2D2/punch_range_left.disabled = false
+		elif Input.is_action_pressed("ui_left"):
+			movement.x = -speed
+			$AnimatedSprite.flip_h = true
+		else:
+			movement.x = 0
 			
-		$AnimatedSprite.play("punch")
-		$punchSound.play()
-		
-		
-		
-	if Input.is_action_just_released("ui_punch"):
-		$AnimatedSprite.play("default")
-		
-		
-		$Area2D/punch_range_right.disabled = true
-		$Area2D2/punch_range_left.disabled = true
+		if Input.is_action_just_pressed("ui_punch"):
 			
-		
-		
-	#sets new position of the player
-	if is_on_floor():
-		if Input.is_action_just_pressed("ui_jump"):
-			movement.y = -jump
-			#$jumpForce.start()
-			$jumpSound.play() #Sound Effect from https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6462
-		#if Input.is_action_just_released("ui_jump"):
-		#	$jumpForce.stop()
+			if $AnimatedSprite.flip_h == false:
+				$Area2D/punch_range_right.disabled = false
+				
+			if $AnimatedSprite.flip_h == true:
+				$Area2D2/punch_range_left.disabled = false
+				
+			$AnimatedSprite.play("punch")
+			$punchSound.play()
 			
-	movement = move_and_slide(movement, UPvector)
+			
+			
+		if Input.is_action_just_released("ui_punch"):
+			$AnimatedSprite.play("default")
+			
+			
+			$Area2D/punch_range_right.disabled = true
+			$Area2D2/punch_range_left.disabled = true
+				
+			
+			
+		#sets new position of the player
+		if is_on_floor():
+			if Input.is_action_just_pressed("ui_jump"):
+				movement.y = -jump
+				#$jumpForce.start()
+				$jumpSound.play() #Sound Effect from https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6462
+			#if Input.is_action_just_released("ui_jump"):
+			#	$jumpForce.stop()
+				
+		movement = move_and_slide(movement, UPvector)
 
 
 func _on_Area2D_body_entered(body):
@@ -89,3 +91,6 @@ func _on_Area2D2_body_entered(body):
 func _on_HealthReduce_timeout():
 	pHealth -= 1
 	$Camera2D/ProgressBar.value = pHealth
+
+func _on_TitlePage_startGame():
+	canmove = true
